@@ -9,6 +9,16 @@
     "stdlib",
     "browser"
   ],
+  "author": "Jinjiang <zhaojinjiang@me.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jinjiang/vite-plugin-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jinjiang/vite-plugin-node/issues"
+  },
+  "homepage": "https://github.com/Jinjiang/vite-plugin-node#readme",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

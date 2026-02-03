@@ -1,13 +1,13 @@
-# vite-plugin-node
+# vite-plugin-stdlib
 
 > A Vite plugin to polyfill Node.js standard library modules for browser usage.
 
-[![npm version](https://img.shields.io/npm/v/vite-plugin-node.svg)](https://www.npmjs.com/package/vite-plugin-node)
+[![npm version](https://img.shields.io/npm/v/vite-plugin-stdlib.svg)](https://www.npmjs.com/package/vite-plugin-stdlib)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
 
-`vite-plugin-node` is a Vite plugin that automatically polyfills Node.js standard library modules (like `Buffer`, `process`, `global`) for browser environments. This enables you to use packages that depend on Node.js built-ins in your browser-based Vite applications without manual configuration.
+`vite-plugin-stdlib` is a Vite plugin that automatically polyfills Node.js standard library modules (like `Buffer`, `process`, `global`) for browser environments. This enables you to use packages that depend on Node.js built-ins in your browser-based Vite applications without manual configuration.
 
 ## Features
 
@@ -20,22 +20,20 @@
 ## Installation
 
 ```bash
-npm install vite-plugin-node
+npm install vite-plugin-stdlib
 # or
-pnpm add vite-plugin-node
+pnpm add vite-plugin-stdlib
 # or
-yarn add vite-plugin-node
+yarn add vite-plugin-stdlib
 ```
 
 ## Usage
-
-### Basic Setup
 
 Add the plugin to your `vite.config.ts`:
 
 ```typescript
 import { defineConfig } from 'vite'
-import { stdlib } from 'vite-plugin-node'
+import { stdlib } from 'vite-plugin-stdlib'
 
 export default defineConfig({
   plugins: [
@@ -51,36 +49,6 @@ That's it! Now you can use Node.js globals and standard library modules in your 
 console.log(Buffer.from('hello'))
 console.log(process.env)
 console.log(global)
-```
-
-### With Vue
-
-```typescript
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { stdlib } from 'vite-plugin-node'
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    stdlib(),
-  ],
-})
-```
-
-### With React
-
-```typescript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { stdlib } from 'vite-plugin-node'
-
-export default defineConfig({
-  plugins: [
-    react(),
-    stdlib(),
-  ],
-})
 ```
 
 ## How It Works
@@ -105,59 +73,6 @@ Uses [node-stdlib-browser](https://github.com/niksy/node-stdlib-browser) to prov
 - `events`
 - And many more...
 
-## Advanced Usage
-
-### Direct Imports
-
-You can also import polyfills directly:
-
-```typescript
-import Buffer from 'vite-plugin-node/buffer'
-import process from 'vite-plugin-node/process'
-import global from 'vite-plugin-node/global'
-```
-
-### Exported Configurations
-
-The plugin exports several configurations for advanced use cases:
-
-```typescript
-import { 
-  stdlib,        // The main plugin
-  alias,         // Module aliases for Node.js standard library
-  define,        // Global definitions
-  rolldownInject,// Rolldown injection configuration
-  oxcInject,     // OXC injection configuration
-  banner,        // Banner code for global initialization
-} from 'vite-plugin-node'
-```
-
-## Peer Dependencies
-
-- `vite` >= 8.0.0-beta.11
-
-## Development
-
-```bash
-# Install dependencies
-pnpm install
-
-# Build the plugin
-pnpm build
-
-# Build inject files
-pnpm inject
-
-# Run the demo
-pnpm dev
-
-# Build demo for production
-pnpm demo:build
-
-# Preview production build
-pnpm demo:preview
-```
-
 ## Use Cases
 
 This plugin is particularly useful when:
@@ -169,7 +84,7 @@ This plugin is particularly useful when:
 
 ## Comparison with Similar Tools
 
-Unlike `vite-plugin-node-polyfills`, this plugin is specifically designed to work with Vite 8+ and leverages modern build tools like Rolldown and OXC for optimal performance and compatibility.
+Unlike `vite-plugin-stdlib-polyfills`, this plugin is specifically designed to work with Vite 8+ and leverages modern build tools like Rolldown and OXC for optimal performance and compatibility.
 
 ## License
 
@@ -181,4 +96,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Issues
 
-If you encounter any issues or have questions, please file them in the [issues section](https://github.com/Jinjiang/vite-plugin-node/issues).
+If you encounter any issues or have questions, please file them in the [issues section](https://github.com/Jinjiang/vite-plugin-stdlib/issues).

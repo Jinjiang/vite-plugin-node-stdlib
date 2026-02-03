@@ -6,9 +6,9 @@ import stdLibBrowser from 'node-stdlib-browser'
 const require = createRequire(import.meta.url)
 
 export const rolldownInject: Record<string, string> = {
-  Buffer: require.resolve('vite-plugin-node/buffer'),
-  global: require.resolve('vite-plugin-node/global'),
-  process: require.resolve('vite-plugin-node/process'),
+  Buffer: require.resolve('vite-plugin-stdlib/buffer'),
+  global: require.resolve('vite-plugin-stdlib/global'),
+  process: require.resolve('vite-plugin-stdlib/process'),
 }
 
 function getModuleName(name: string) {
@@ -31,15 +31,15 @@ export const define = {
 }
 
 export const oxcInject: Record<string, [string, string]> = {
-  Buffer: ['vite-plugin-node/buffer', 'default'],
-  global: ['vite-plugin-node/global', 'default'],
-  process: ['vite-plugin-node/process', 'default']
+  Buffer: ['vite-plugin-stdlib/buffer', 'default'],
+  global: ['vite-plugin-stdlib/global', 'default'],
+  process: ['vite-plugin-stdlib/process', 'default']
 }
 
 export const banner = [
-  `import __buffer_polyfill from 'vite-plugin-node/buffer'`,
-  `import __global_polyfill from 'vite-plugin-node/global'`,
-  `import __process_polyfill from 'vite-plugin-node/process'`,
+  `import __buffer_polyfill from 'vite-plugin-stdlib/buffer'`,
+  `import __global_polyfill from 'vite-plugin-stdlib/global'`,
+  `import __process_polyfill from 'vite-plugin-stdlib/process'`,
   `globalThis.Buffer = globalThis.Buffer || __buffer_polyfill`,
   `globalThis.global = globalThis.global || __global_polyfill`,
   `globalThis.process = globalThis.process || __process_polyfill`,
@@ -48,7 +48,7 @@ export const banner = [
 
 export const stdlib = (): Plugin => {
   return {
-    name: 'vite-plugin-node',
+    name: 'vite-plugin-stdlib',
     config() {
       return {
         resolve: { alias },
@@ -62,7 +62,7 @@ export const stdlib = (): Plugin => {
             transform: { define },
             plugins: [
               {
-                name: 'vite-plugin-node:optimizer',
+                name: 'vite-plugin-stdlib:optimizer',
                 banner,
               },
             ],

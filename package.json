@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-stdlib",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A Vite plugin to polyfill Node.js standard library modules for browser usage.",
   "keywords": [
     "vite",

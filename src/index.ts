@@ -18,83 +18,56 @@ export const alias = Object.entries(stdLibBrowser).reduce(
   }, {} as Record<string, string>
 )
 
-const globalShimBanners = {
-  buffer: [
-    `import __buffer_polyfill from 'vite-plugin-node-polyfills/shims/buffer'`,
-    `globalThis.Buffer = globalThis.Buffer || __buffer_polyfill`,
-  ],
-  global: [
-    `import __global_polyfill from 'vite-plugin-node-polyfills/shims/global'`,
-    `globalThis.global = globalThis.global || __global_polyfill`,
-  ],
-  process: [
-    `import __process_polyfill from 'vite-plugin-node-polyfills/shims/process'`,
-    `globalThis.process = globalThis.process || __process_polyfill`,
-  ],
+export const define = {
+  Buffer: 'Buffer',
+  global: 'global',
+  process: 'process',
 }
 
+export const oxcInject: Record<string, [string, string]> = {
+  Buffer: ['vite-plugin-node-polyfills/shims/buffer', 'default'],
+  global: ['vite-plugin-node-polyfills/shims/global', 'default'],
+  process: ['vite-plugin-node-polyfills/shims/process', 'default']
+}
+
+const banner = [
+  `import __buffer_polyfill from 'vite-plugin-node-polyfills/shims/buffer'`,
+  `import __global_polyfill from 'vite-plugin-node-polyfills/shims/global'`,
+  `import __process_polyfill from 'vite-plugin-node-polyfills/shims/process'`,
+  `globalThis.Buffer = globalThis.Buffer || __buffer_polyfill`,
+  `globalThis.global = globalThis.global || __global_polyfill`,
+  `globalThis.process = globalThis.process || __process_polyfill`,
+  ``,
+].join('\n')
+
 export const stdlib = (): Plugin => {
-  const globalShimPaths = [
-    require.resolve('vite-plugin-node-polyfills/shims/buffer'),
-    require.resolve('vite-plugin-node-polyfills/shims/global'),
-    require.resolve('vite-plugin-node-polyfills/shims/process'),
-  ]
-
-  const globalShimsBanner = [
-    ...globalShimBanners.buffer,
-    ...globalShimBanners.global,
-    ...globalShimBanners.process,
-    ``,
-  ].join('\n')
-
   return {
     name: 'vite-plugin-node-polyfills',
     config(_config, env) {
       const isDev = env.command === 'serve'
 
-      // https://github.com/niksy/node-stdlib-browser/blob/3e7cd7f3d115ac5c4593b550e7d8c4a82a0d4ac4/README.md?plain=1#L203-L209
-      const defines = {
-        Buffer: 'Buffer',
-        global: 'global',
-        process: 'process',
-      }
-
       return {
-        build: {
-          rolldownOptions: {
-            transform: { inject },
-          },
-        },
+        resolve: { alias },
         oxc: {
-          inject: {
-            Buffer: ['vite-plugin-node-polyfills/shims/buffer', 'default'],
-            global: ['vite-plugin-node-polyfills/shims/global', 'default'],
-            process: ['vite-plugin-node-polyfills/shims/process', 'default']
-          }
+          inject: oxcInject,
         },
         optimizeDeps: {
-          exclude: [
-            ...globalShimPaths,
-          ],
+          include: Object.values(inject),
           rolldownOptions: {
-            resolve: {
-              // https://github.com/niksy/node-stdlib-browser/blob/3e7cd7f3d115ac5c4593b550e7d8c4a82a0d4ac4/README.md?plain=1#L150
-              alias,
-            },
-            transform: {
-              define: defines,
-            },
+            resolve: { alias },
+            transform: { define },
             plugins: [
               {
                 name: 'vite-plugin-node-polyfills:optimizer',
-                banner: isDev ? globalShimsBanner : undefined,
+                banner: isDev ? banner : undefined,
               },
             ],
           },
         },
-        resolve: {
-          // https://github.com/niksy/node-stdlib-browser/blob/3e7cd7f3d115ac5c4593b550e7d8c4a82a0d4ac4/README.md?plain=1#L150
-          alias,
+        build: {
+          rolldownOptions: {
+            transform: { inject },
+          },
         },
       }
     },

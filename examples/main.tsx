@@ -21,6 +21,9 @@
 //   createApp(AppVue).mount(vueRoot)
 // }
 
+import 'foo/cjs.cjs'
+import 'foo/mjs.mjs'
+
 console.log({
   Buffer,
   process,
